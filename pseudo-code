@@ -1,0 +1,158 @@
+START
+
+// Define constants and structures
+MAX_ACCOUNTS = 100  // Maximum number of accounts
+accounts = Array of Account[100]  // Array to store accounts
+accountCount = 0  // Counter for the number of accounts
+
+// Define Account structure with fields:
+Account:
+    accountNumber
+    name
+    balance
+    aadhaar
+
+// Function prototypes (declaration):
+addAccount()
+viewAccount()
+updateAccount()
+deleteAccount()
+deposit()
+withdraw()
+findAccountIndex(accountNumber)
+validateAadhaar(aadhaar)
+
+MAIN:
+    WHILE True:
+        DISPLAY Bank Management System menu:
+            1. Add Account
+            2. View Account
+            3. Update Account
+            4. Delete Account
+            5. Deposit
+            6. Withdraw
+            7. Exit
+        Get user input for choice
+        SWITCH choice:
+            CASE 1:
+                CALL addAccount()
+            CASE 2:
+                CALL viewAccount()
+            CASE 3:
+                CALL updateAccount()
+            CASE 4:
+                CALL deleteAccount()
+            CASE 5:
+                CALL deposit()
+            CASE 6:
+                CALL withdraw()
+            CASE 7:
+                PRINT "Exiting the system..."
+                EXIT PROGRAM
+            DEFAULT:
+                PRINT "Invalid choice! Please try again."
+
+END
+
+// Function to add a new account
+addAccount():
+    Prompt user for account number
+    IF account number exists (CALL findAccountIndex(accountNumber)):
+        PRINT "Account with this number already exists!"
+        RETURN
+
+    Prompt user for Aadhaar number
+    IF Aadhaar number is invalid (CALL validateAadhaar(aadhaar)):
+        PRINT "Invalid Aadhaar number. It should be exactly 11 digits."
+        RETURN
+
+    Prompt user for account holder name
+    Prompt user for initial deposit amount
+
+    CREATE a new Account with the provided details
+    ADD the new account to the accounts array
+    INCREMENT accountCount by 1
+    PRINT "Account created successfully!"
+
+// Function to view an account
+viewAccount():
+    Prompt user for account number
+    FIND the index of the account using findAccountIndex(accountNumber)
+    
+    IF account is found:
+        PRINT account details (account number, holder's name, Aadhaar number, balance)
+    ELSE:
+        PRINT "Account not found!"
+
+// Function to update an account
+updateAccount():
+    Prompt user for account number
+    FIND the index of the account using findAccountIndex(accountNumber)
+    
+    IF account is found:
+        Prompt user for new name
+        Prompt user for new balance
+        UPDATE account details
+        PRINT "Account updated successfully!"
+    ELSE:
+        PRINT "Account not found!"
+
+// Function to delete an account
+deleteAccount():
+    Prompt user for account number
+    FIND the index of the account using findAccountIndex(accountNumber)
+    
+    IF account is found:
+        SHIFT remaining accounts to remove the account from the array
+        DECREMENT accountCount by 1
+        PRINT "Account deleted successfully!"
+    ELSE:
+        PRINT "Account not found!"
+
+// Function to deposit money into an account
+deposit():
+    Prompt user for account number
+    FIND the index of the account using findAccountIndex(accountNumber)
+    
+    IF account is found:
+        Prompt user for deposit amount
+        IF amount is positive:
+            ADD deposit amount to account balance
+            PRINT "Deposited [amount] successfully!"
+        ELSE:
+            PRINT "Invalid deposit amount!"
+    ELSE:
+        PRINT "Account not found!"
+
+// Function to withdraw money from an account
+withdraw():
+    Prompt user for account number
+    FIND the index of the account using findAccountIndex(accountNumber)
+    
+    IF account is found:
+        Prompt user for withdrawal amount
+        IF amount is positive AND sufficient balance is available:
+            SUBTRACT withdrawal amount from account balance
+            PRINT "Withdrew [amount] successfully!"
+        ELSE:
+            PRINT "Insufficient funds or invalid amount!"
+    ELSE:
+        PRINT "Account not found!"
+
+// Function to find account index by account number
+findAccountIndex(accountNumber):
+    FOR each account in accounts array:
+        IF accountNumber matches the current account's account number:
+            RETURN the index of the account
+    RETURN -1  // Account not found
+
+// Function to validate Aadhaar number (checks if it's exactly 11 digits)
+validateAadhaar(aadhaar):
+    IF length of aadhaar is NOT 11:
+        RETURN -1  // Invalid Aadhaar number
+    FOR each character in aadhaar:
+        IF character is NOT a digit:
+            RETURN -1  // Invalid Aadhaar number
+    RETURN 0  // Aadhaar number is valid
+
+END
