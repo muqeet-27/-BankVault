@@ -238,3 +238,4 @@ int validateAadhaar(char *aadhaar) {
     }
     return 0;
 }
+
